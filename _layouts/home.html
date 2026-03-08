@@ -1,0 +1,60 @@
+---
+layout: default
+---
+<div class="container">
+  <div class="home-hero">
+    <h1 class="home-hero__title">{{ site.title }}</h1>
+    <p class="home-hero__description">{{ site.description }}</p>
+  </div>
+
+  {% if paginator.posts.size > 0 %}
+  <section class="posts-section">
+    <h2 class="section-title">最新の記事</h2>
+    <div class="post-grid">
+      {% for post in paginator.posts %}
+      <article class="post-card">
+        <div class="post-card__meta">
+          <time datetime="{{ post.date | date_to_xmlschema }}" class="post-card__date">
+            {{ post.date | date: "%Y年%m月%d日" }}
+          </time>
+          {% if post.tags.size > 0 %}
+          <div class="post-card__tags">
+            {% for tag in post.tags %}
+            <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        <h3 class="post-card__title">
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </h3>
+        {% if post.excerpt %}
+        <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+        {% endif %}
+        <a href="{{ post.url | relative_url }}" class="post-card__link">続きを読む →</a>
+      </article>
+      {% endfor %}
+    </div>
+
+    {% if paginator.total_pages > 1 %}
+    <nav class="pagination" aria-label="ページナビゲーション">
+      {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination__btn pagination__btn--prev">
+        &larr; 新しい記事
+      </a>
+      {% endif %}
+      <span class="pagination__info">
+        {{ paginator.page }} / {{ paginator.total_pages }} ページ
+      </span>
+      {% if paginator.next_page %}
+      <a href="{{ paginator.next_page_path | relative_url }}" class="pagination__btn pagination__btn--next">
+        古い記事 &rarr;
+      </a>
+      {% endif %}
+    </nav>
+    {% endif %}
+  </section>
+  {% else %}
+  <p class="no-posts">まだ記事がありません。</p>
+  {% endif %}
+</div>

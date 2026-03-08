@@ -1,0 +1,44 @@
+---
+layout: default
+---
+<div class="container">
+  <article class="post">
+    <header class="post-header">
+      <div class="post-header__meta">
+        <time datetime="{{ page.date | date_to_xmlschema }}" class="post-date">
+          {{ page.date | date: "%Y年%m月%d日" }}
+        </time>
+        {% if page.tags.size > 0 %}
+        <div class="post-tags">
+          {% for tag in page.tags %}
+          <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      <h1 class="post-title">{{ page.title }}</h1>
+    </header>
+
+    <div class="post-content">
+      {{ content }}
+    </div>
+
+    <footer class="post-footer">
+      <div class="post-nav">
+        {% if page.previous.url %}
+        <a href="{{ page.previous.url | relative_url }}" class="post-nav__link post-nav__link--prev">
+          <span class="post-nav__label">&larr; 前の記事</span>
+          <span class="post-nav__title">{{ page.previous.title }}</span>
+        </a>
+        {% endif %}
+        {% if page.next.url %}
+        <a href="{{ page.next.url | relative_url }}" class="post-nav__link post-nav__link--next">
+          <span class="post-nav__label">次の記事 &rarr;</span>
+          <span class="post-nav__title">{{ page.next.title }}</span>
+        </a>
+        {% endif %}
+      </div>
+      <a href="{{ '/' | relative_url }}" class="btn btn--outline">← 記事一覧に戻る</a>
+    </footer>
+  </article>
+</div>
