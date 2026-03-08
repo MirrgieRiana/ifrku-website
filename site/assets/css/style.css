@@ -1,4 +1,10 @@
-/* ===== CSS Variables ===== */
+/* assets/css/style.css — ifrku 公式ブログ スタイルシート
+ *
+ * このファイルはサイト全体のスタイルを定義します。
+ * CSSカスタムプロパティ（変数）を使用して色やサイズを一元管理しています。
+ */
+
+/* ===== CSSカスタムプロパティ（変数定義） ===== */
 :root {
   --color-primary:       #2d9e6e;
   --color-primary-light: #4caf50;
@@ -30,7 +36,7 @@
   --container-padding: 1.25rem;
 }
 
-/* ===== Reset & Base ===== */
+/* ===== リセット＆基本スタイル ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
@@ -60,7 +66,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text);
 }
 
-/* ===== Layout ===== */
+/* ===== レイアウト ===== */
 .container {
   max-width: var(--container-width);
   margin: 0 auto;
@@ -72,7 +78,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 2.5rem 0;
 }
 
-/* ===== Header ===== */
+/* ===== サイトヘッダー ===== */
 .site-header {
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
@@ -120,7 +126,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-link:hover { background: var(--color-accent); color: var(--color-primary-dark); text-decoration: none; }
 .nav-link--icon { display: flex; align-items: center; }
 
-/* ===== Footer ===== */
+/* ===== サイトフッター ===== */
 .site-footer {
   border-top: 1px solid var(--color-border);
   padding: 1.5rem 0;
@@ -128,7 +134,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .site-footer__text { font-size: 0.85rem; color: var(--color-text-muted); }
 
-/* ===== Home Hero ===== */
+/* ===== ホームページ ヒーローセクション ===== */
 .home-hero {
   text-align: center;
   padding: 3rem 0 2rem;
@@ -146,7 +152,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .home-hero__description { font-size: 1.05rem; color: var(--color-text-muted); max-width: 520px; margin: 0 auto; }
 
-/* ===== Section ===== */
+/* ===== セクションタイトル ===== */
 .section-title {
   font-size: 1.4rem;
   font-weight: 700;
@@ -156,7 +162,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text);
 }
 
-/* ===== Post Grid ===== */
+/* ===== 記事カードグリッド ===== */
 .post-grid {
   display: grid;
   gap: 1.25rem;
@@ -211,7 +217,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .post-card__link:hover { color: var(--color-primary); text-decoration: none; }
 
-/* ===== Tags ===== */
+/* ===== タグバッジ ===== */
 .tag {
   display: inline-block;
   padding: 0.2rem 0.6rem;
@@ -222,7 +228,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
 }
 
-/* ===== Pagination ===== */
+/* ===== ページネーション ===== */
 .pagination {
   display: flex;
   align-items: center;
@@ -247,7 +253,7 @@ h1, h2, h3, h4, h5, h6 {
 .pagination__btn:hover { background: var(--color-accent); border-color: var(--color-primary); text-decoration: none; }
 .pagination__info { font-size: 0.88rem; color: var(--color-text-muted); }
 
-/* ===== Post ===== */
+/* ===== 記事ページ ヘッダー ===== */
 .post-header {
   margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
@@ -271,7 +277,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text);
 }
 
-/* ===== Post Content ===== */
+/* ===== 記事本文（Markdownから生成されるHTML）===== */
 .post-content {
   font-size: 1.05rem;
   line-height: 1.9;
@@ -368,7 +374,7 @@ h1, h2, h3, h4, h5, h6 {
 .post-content th { background: var(--color-accent); font-weight: 700; text-align: left; }
 .post-content tr:nth-child(even) td { background: #f8fafc; }
 
-/* ===== Post Footer / Navigation ===== */
+/* ===== 記事フッター・前後ナビゲーション ===== */
 .post-footer {
   margin-top: 3rem;
   padding-top: 2rem;
@@ -421,7 +427,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 .btn--outline:hover { background: var(--color-accent); border-color: var(--color-primary); color: var(--color-primary-dark); text-decoration: none; }
 
-/* ===== Character Block (Speech Bubbles) ===== */
+/* ===== キャラクターブロック（吹き出し）===== */
+/* _plugins/character_block.rb によって生成されるHTMLのスタイル */
 .character-block {
   display: flex;
   align-items: flex-end;
@@ -445,7 +452,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
 }
 
-/* Hide the broken-image icon when the image can't load */
+/* 画像が読み込めなかった場合、壊れた画像アイコンを非表示にする */
 .character-avatar.no-image img { display: none; }
 
 .character-avatar.no-image::after {
@@ -514,10 +521,10 @@ h1, h2, h3, h4, h5, h6 {
 .character-zundamon .character-avatar img  { background: #e8f5e9; border: 2px solid #4caf50; }
 .character-zundamon .character-avatar.no-image::after { background: #e8f5e9; }
 
-/* ===== Utility ===== */
+/* ===== ユーティリティ ===== */
 .no-posts { text-align: center; color: var(--color-text-muted); padding: 3rem 0; }
 
-/* ===== Responsive ===== */
+/* ===== レスポンシブ対応（スマートフォン）===== */
 @media (max-width: 600px) {
   .post-title          { font-size: 1.55rem; }
   .home-hero__title    { font-size: 1.8rem; }

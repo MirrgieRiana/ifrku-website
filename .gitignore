@@ -1,8 +1,13 @@
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-.bundle/
-vendor/
+# Jekyllのビルド生成物（site/ サブディレクトリ内）
+site/_site/
+site/.sass-cache/
+site/.jekyll-cache/
+site/.jekyll-metadata
+site/.bundle/
+site/vendor/
+
+# Gradleのキャッシュ・一時ファイル
 .gradle/
+
+# RubyGemsのgemファイル
 *.gem

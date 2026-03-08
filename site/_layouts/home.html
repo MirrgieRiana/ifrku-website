@@ -1,19 +1,25 @@
 ---
+# _layouts/home.html: トップページ（記事一覧）のレイアウト
+# jekyll-paginate プラグインで paginator オブジェクトが使えるようになる
 layout: default
 ---
 <div class="container">
+  <!-- ヒーローセクション: サイトタイトルとキャッチコピーを大きく表示 -->
   <div class="home-hero">
     <h1 class="home-hero__title">{{ site.title }}</h1>
     <p class="home-hero__description">{{ site.description }}</p>
   </div>
 
   {% if paginator.posts.size > 0 %}
+  <!-- 記事一覧セクション: paginator.posts に現在ページの記事が格納される -->
   <section class="posts-section">
     <h2 class="section-title">最新の記事</h2>
     <div class="post-grid">
       {% for post in paginator.posts %}
+      <!-- 記事カード: タイトル・日付・タグ・抜粋を表示 -->
       <article class="post-card">
         <div class="post-card__meta">
+          <!-- 日付（ISO 8601形式をdatetimeに、日本語形式を表示テキストに使用） -->
           <time datetime="{{ post.date | date_to_xmlschema }}" class="post-card__date">
             {{ post.date | date: "%Y年%m月%d日" }}
           </time>
@@ -29,6 +35,7 @@ layout: default
           <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
         </h3>
         {% if post.excerpt %}
+        <!-- 抜粋テキスト: HTMLタグを除去して120文字で切り捨て -->
         <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
         {% endif %}
         <a href="{{ post.url | relative_url }}" class="post-card__link">続きを読む →</a>
@@ -37,6 +44,7 @@ layout: default
     </div>
 
     {% if paginator.total_pages > 1 %}
+    <!-- ページネーションナビゲーション: 複数ページある場合のみ表示 -->
     <nav class="pagination" aria-label="ページナビゲーション">
       {% if paginator.previous_page %}
       <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination__btn pagination__btn--prev">
