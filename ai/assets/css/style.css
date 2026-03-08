@@ -1,0 +1,713 @@
+/* ai/assets/css/style.css — ifrku 公式ブログ スタイルシート
+ *
+ * マイクラブログ風のモダンでカジュアルなデザインです。
+ * Minecraftの土・草・木材・石などの配色を参考にしています。
+ * CSSカスタムプロパティ（変数）で色・サイズを一元管理しています。
+ */
+
+/* ===== CSSカスタムプロパティ（変数定義）===== */
+:root {
+  /* メインカラー: Minecraft の草ブロック・木材・土をイメージ */
+  --color-grass:        #5D9C3F;   /* 草の緑 */
+  --color-grass-dark:   #3E6E27;   /* 濃い緑 */
+  --color-grass-light:  #85C750;   /* 明るい緑 */
+  --color-dirt:         #8B5E3C;   /* 土の茶色 */
+  --color-wood:         #BC8C5B;   /* 木材の色 */
+  --color-stone:        #A0A0A0;   /* 石の灰色 */
+  --color-sky:          #6AADDB;   /* Minecraft の空の青 */
+  --color-diamond:      #4BD7D0;   /* ダイヤのシアン（アクセント） */
+
+  /* 背景・サーフェス */
+  --color-bg:           #F0EDE6;   /* 羊皮紙のような温かみのある白 */
+  --color-surface:      #FFFDF7;   /* カード背景 */
+  --color-surface-alt:  #F5F0E8;   /* ヘッダー背景 */
+  --color-code-bg:      #1D2021;   /* コマンドブロック風ダーク背景 */
+
+  /* テキスト */
+  --color-text:         #2C2416;   /* ダークブラウン（土の色）*/
+  --color-text-muted:   #7A6C5A;   /* やや薄いテキスト */
+  --color-text-light:   #B0A090;   /* 薄いテキスト */
+
+  /* ボーダー */
+  --color-border:       #C8B89A;   /* 木材風のボーダー色 */
+  --color-border-dark:  #8B7B65;   /* 濃いボーダー */
+
+  /* フォント */
+  --font-sans:  "Noto Sans JP", "Hiragino Sans", system-ui, sans-serif;
+  --font-serif: "Noto Serif JP", "Hiragino Mincho ProN", Georgia, serif;
+  --font-mono:  ui-monospace, "SFMono-Regular", Consolas, monospace;
+
+  /* 角丸（マイクラ風にあまり丸くしない）*/
+  --radius-sm:  4px;
+  --radius-md:  6px;
+  --radius-lg:  10px;
+
+  /* シャドウ（ブロック感を出すオフセットシャドウ）*/
+  --shadow-block: 3px 3px 0 rgba(0, 0, 0, 0.18);
+  --shadow-hover:  4px 4px 0 rgba(0, 0, 0, 0.22);
+  --shadow-sm:     0 2px 4px rgba(0, 0, 0, 0.10);
+  --shadow-md:     0 4px 12px rgba(0, 0, 0, 0.12);
+
+  /* アニメーション */
+  --transition: 0.15s ease;
+
+  /* レイアウト */
+  --container-width:   860px;
+  --container-padding: 1.25rem;
+}
+
+/* ===== リセット＆基本スタイル ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--color-text);
+  /* 羊皮紙風の格子状ドット背景 */
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(circle, rgba(139, 94, 60, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a {
+  color: var(--color-grass-dark);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+a:hover { color: var(--color-grass); text-decoration: underline; }
+
+/* 見出し: ブロック感のある太字 */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+/* ===== レイアウト ===== */
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.site-main {
+  min-height: calc(100vh - 140px);
+  padding: 2.5rem 0;
+}
+
+/* ===== サイトヘッダー ===== */
+/* 草ブロックの上面をイメージした緑のヘッダー */
+.site-header {
+  background: linear-gradient(
+    to bottom,
+    var(--color-grass-light) 0%,
+    var(--color-grass) 60%,
+    var(--color-grass-dark) 100%
+  );
+  border-bottom: 4px solid var(--color-grass-dark);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.18);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  gap: 1rem;
+}
+
+/* サイトロゴ: 白抜きでポップな見た目 */
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.site-logo:hover { color: #fff; text-decoration: none; opacity: 0.9; }
+.site-logo__icon { font-size: 1.5rem; }
+
+/* ナビゲーション */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav-link {
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  transition: background var(--transition), color var(--transition);
+}
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  text-decoration: none;
+}
+.nav-link--icon { display: flex; align-items: center; }
+
+/* ===== サイトフッター ===== */
+/* 土ブロックをイメージした茶色のフッター */
+.site-footer {
+  background: linear-gradient(
+    to bottom,
+    var(--color-dirt) 0%,
+    #6B4226 100%
+  );
+  border-top: 4px solid var(--color-grass-dark);
+  padding: 1.5rem 0;
+  text-align: center;
+  margin-top: 3rem;
+}
+.site-footer__text {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* ===== ヒーローセクション（トップページ）===== */
+.home-hero {
+  text-align: center;
+  padding: 3.5rem 1rem 2.5rem;
+  margin-bottom: 2.5rem;
+  /* 草ブロック断面風のボーダー */
+  border-bottom: 3px dashed var(--color-border-dark);
+}
+
+.home-hero__title {
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: var(--color-grass-dark);
+  /* テキストに土の色のシャドウをつけてブロック感を演出 */
+  text-shadow: 3px 3px 0 rgba(139, 94, 60, 0.25);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.home-hero__description {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ===== セクションタイトル ===== */
+/* 木材の看板風 */
+.section-title {
+  display: inline-block;
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  padding: 0.3rem 1rem;
+  background: var(--color-wood);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-block);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.05em;
+}
+
+/* ===== 記事カードグリッド ===== */
+.post-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* 記事カード: 木の板風のデザイン */
+.post-card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-block);
+  transition: box-shadow var(--transition), transform var(--transition),
+              border-color var(--transition);
+  position: relative;
+}
+.post-card:hover {
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-grass);
+  transform: translate(-1px, -1px);
+}
+
+/* カード左端の草ブロック風のカラーバー */
+.post-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--color-grass-light), var(--color-grass));
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.post-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.post-card__date {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}
+
+.post-card__title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1.45;
+}
+.post-card__title a { color: var(--color-text); }
+.post-card__title a:hover { color: var(--color-grass-dark); text-decoration: none; }
+
+.post-card__excerpt {
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+}
+
+.post-card__link {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-grass-dark);
+}
+.post-card__link:hover { color: var(--color-grass); text-decoration: none; }
+
+/* ===== タグバッジ ===== */
+/* アイテムラベル風の小さなバッジ */
+.tag {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  background: var(--color-grass-dark);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* ===== ページネーション ===== */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 2px dashed var(--color-border-dark);
+}
+
+/* ブロックボタン風のページネーション */
+.pagination__btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.1rem;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border-dark);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+  box-shadow: var(--shadow-block);
+  transition: box-shadow var(--transition), transform var(--transition), background var(--transition);
+}
+.pagination__btn:hover {
+  background: var(--color-grass-light);
+  color: #fff;
+  box-shadow: var(--shadow-hover);
+  transform: translate(-1px, -1px);
+  text-decoration: none;
+}
+.pagination__info {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ===== 記事ページ ヘッダー ===== */
+.post {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-block);
+  margin: 0;
+}
+
+.post-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px dashed var(--color-border);
+}
+
+.post-header__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.post-date {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}
+
+.post-title {
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.35;
+  color: var(--color-text);
+}
+
+/* ===== 記事本文（Markdownから生成されるHTML）===== */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.9;
+}
+
+/* 見出しに緑のアクセントボーダーを付ける */
+.post-content h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 2.5rem 0 1rem;
+  padding: 0.5rem 0.9rem;
+  background: linear-gradient(to right, rgba(93, 156, 63, 0.12), transparent);
+  border-left: 5px solid var(--color-grass);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.post-content h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 2rem 0 0.75rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--color-wood);
+}
+
+.post-content h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.post-content p { margin: 1rem 0; }
+
+.post-content ul, .post-content ol {
+  margin: 1rem 0 1rem 1.75rem;
+}
+.post-content li { margin: 0.35rem 0; }
+
+/* 引用: コマンドブロック風 */
+.post-content blockquote {
+  margin: 1.5rem 0;
+  padding: 0.9rem 1.25rem;
+  border-left: 5px solid var(--color-diamond);
+  background: rgba(75, 215, 208, 0.08);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* インラインコード */
+.post-content code {
+  font-family: var(--font-mono);
+  font-size: 0.87em;
+  background: rgba(139, 94, 60, 0.10);
+  padding: 0.15em 0.45em;
+  border-radius: var(--radius-sm);
+  color: #8B3A0F;
+  border: 1px solid rgba(139, 94, 60, 0.2);
+}
+
+/* コードブロック: コマンドブロック風ダーク */
+.post-content pre {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background: var(--color-code-bg);
+  border: 2px solid #3A3A3A;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-block);
+  overflow-x: auto;
+  font-size: 0.87rem;
+  line-height: 1.7;
+}
+
+.post-content pre code {
+  background: none;
+  color: #A8E6CF;
+  padding: 0;
+  font-size: inherit;
+  border: none;
+}
+
+.post-content hr {
+  border: none;
+  border-top: 2px dashed var(--color-border);
+  margin: 2rem 0;
+}
+
+.post-content a {
+  color: var(--color-grass-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.post-content a:hover { color: var(--color-grass); }
+
+.post-content img {
+  border-radius: var(--radius-md);
+  margin: 1.5rem auto;
+  box-shadow: var(--shadow-block);
+  border: 2px solid var(--color-border);
+}
+
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.93rem;
+  box-shadow: var(--shadow-block);
+}
+.post-content th, .post-content td {
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--color-border);
+}
+.post-content th {
+  background: var(--color-grass-dark);
+  color: #fff;
+  font-weight: 700;
+  text-align: left;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+.post-content tr:nth-child(even) td { background: rgba(93, 156, 63, 0.05); }
+
+/* ===== 記事フッター・前後ナビゲーション ===== */
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px dashed var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* 記事ナビボタン: ブロック感のあるデザイン */
+.post-nav__link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem;
+  background: var(--color-surface-alt);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-block);
+  transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+.post-nav__link:hover {
+  border-color: var(--color-grass);
+  box-shadow: var(--shadow-hover);
+  transform: translate(-1px, -1px);
+  text-decoration: none;
+}
+.post-nav__link--next { text-align: right; }
+
+.post-nav__label { font-size: 0.8rem; color: var(--color-text-muted); }
+.post-nav__title { font-size: 0.95rem; font-weight: 600; color: var(--color-text); }
+
+/* 汎用ボタン */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: box-shadow var(--transition), transform var(--transition), background var(--transition);
+  text-decoration: none;
+}
+.btn--outline {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border-dark);
+  color: var(--color-text-muted);
+  box-shadow: var(--shadow-block);
+}
+.btn--outline:hover {
+  background: var(--color-surface-alt);
+  border-color: var(--color-grass);
+  color: var(--color-grass-dark);
+  box-shadow: var(--shadow-hover);
+  transform: translate(-1px, -1px);
+  text-decoration: none;
+}
+
+/* ===== キャラクターブロック（吹き出し）===== */
+/* ai/_plugins/character_block.rb によって生成されるHTMLのスタイル */
+/* ゲームのダイアログボックス風デザイン */
+.character-block {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.character-avatar {
+  flex-shrink: 0;
+  width: 84px;
+  text-align: center;
+}
+
+.character-avatar img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  /* ドット絵風に見えるようにピクセル風のシャドウとボーダー */
+  border: 3px solid var(--color-grass-dark);
+  border-radius: var(--radius-sm);
+  background: rgba(93, 156, 63, 0.1);
+  padding: 3px;
+  box-shadow: var(--shadow-block);
+  image-rendering: auto;
+  margin: 0 auto;
+}
+
+/* 画像が読み込めなかった場合、壊れた画像アイコンを非表示にする */
+.character-avatar.no-image img { display: none; }
+
+/* フォールバック: 絵文字を表示（ブロック風に枠を付ける）*/
+.character-avatar.no-image::after {
+  content: "🌿";
+  display: block;
+  width: 76px;
+  height: 76px;
+  line-height: 76px;
+  text-align: center;
+  font-size: 2.2rem;
+  background: rgba(93, 156, 63, 0.15);
+  border: 3px solid var(--color-grass-dark);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-block);
+  margin: 0 auto;
+}
+
+/* ゲームのメッセージボックス風の吹き出し */
+.speech-bubble {
+  position: relative;
+  background: var(--color-surface);
+  /* 二重ボーダー（外側: 濃い茶色 / 内側: 薄い黄色で光沢感）*/
+  border: 3px solid var(--color-dirt);
+  outline: 1px solid rgba(255, 220, 150, 0.4);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1.2rem;
+  max-width: calc(100% - 100px);
+  box-shadow: var(--shadow-block);
+}
+
+/* 吹き出しの左三角形（アバターに向いている）*/
+.speech-bubble::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  bottom: 20px;
+  border: 7px solid transparent;
+  border-right-color: var(--color-dirt);
+}
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  left: -8px;
+  bottom: 22px;
+  border: 5px solid transparent;
+  border-right-color: var(--color-surface);
+}
+
+/* キャラクター名ラベル（アイテムラベル風）*/
+.speech-bubble__name {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--color-grass-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.speech-bubble__name::before {
+  content: "▶";
+  font-size: 0.65rem;
+  color: var(--color-grass);
+}
+
+.speech-bubble__text {
+  font-size: 0.97rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* ===== ユーティリティ ===== */
+.no-posts {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+/* ===== レスポンシブ対応（スマートフォン）===== */
+@media (max-width: 640px) {
+  /* ヒーロータイトルを小さくする */
+  .home-hero__title { font-size: 1.9rem; }
+
+  /* 記事ページのカード余白を減らす */
+  .post { padding: 1.5rem 1.25rem; }
+
+  .post-title { font-size: 1.55rem; }
+
+  /* 前後ナビを縦並びに */
+  .post-nav { grid-template-columns: 1fr; }
+  .post-nav__link--next { text-align: left; }
+
+  /* コードブロックのフォントを小さくする */
+  .post-content pre { font-size: 0.8rem; }
+}

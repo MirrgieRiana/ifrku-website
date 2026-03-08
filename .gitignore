@@ -1,13 +1,21 @@
-# Jekyllのビルド生成物（site/ サブディレクトリ内）
-site/_site/
-site/.sass-cache/
-site/.jekyll-cache/
-site/.jekyll-metadata
-site/.bundle/
-site/vendor/
+# Jekyllのビルド生成物（ai/ サブディレクトリ内）
+ai/_site/
+ai/.sass-cache/
+ai/.jekyll-cache/
+ai/.jekyll-metadata
+ai/.bundle/
+ai/vendor/
+
+# ビルドスクリプトによって生成されるコンテンツ（contents/ からコピーされる）
+ai/_posts/
+ai/about.md
 
 # Gradleのキャッシュ・一時ファイル
 .gradle/
+build/
+
+# IntelliJ IDEAの設定ファイル
+.idea/
 
 # RubyGemsのgemファイル
 *.gem

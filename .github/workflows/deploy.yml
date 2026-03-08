@@ -43,32 +43,32 @@ jobs:
           distribution: temurin
 
       # JekyllはRubyで動くためRubyをセットアップ
-      # bundler-cache: true により site/Gemfile.lock を参照してgemをキャッシュする
+      # bundler-cache: true により ai/Gemfile.lock を参照してgemをキャッシュする
       - name: Rubyのセットアップ（Bundlerキャッシュ有効）
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
-          # site/Gemfile.lock を参照してgemをキャッシュ
+          # ai/Gemfile.lock を参照してgemをキャッシュ
           bundler-cache: true
-          working-directory: site
+          working-directory: ai
 
       # GitHub Pagesのデプロイに必要な設定（baseurl等の自動設定）
       - name: GitHub Pagesの設定
         uses: actions/configure-pages@v5
 
       # Gradleラッパーに実行権限を付与
-      - name: gradlew に実行権限を付与
-        run: chmod +x gradlew
+      - name: gradlew と build.sh に実行権限を付与
+        run: chmod +x gradlew scripts/build.sh
 
-      # Gradlew経由でJekyllビルドを実行（site/_site/ に生成される）
-      - name: Gradle で Jekyll をビルド
+      # Gradlew経由でビルドスクリプトを実行（ai/_site/ に生成される）
+      - name: Gradle で Jekyll をビルド（scripts/build.sh 経由）
         run: ./gradlew jekyllBuild
 
       # 生成された静的ファイルをPages用アーティファクトとしてアップロード
       - name: Pagesアーティファクトをアップロード
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site/_site/
+          path: ai/_site/
 
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   # ジョブ2: GitHub Pagesへのデプロイ
@@ -86,4 +86,3 @@ jobs:
       - name: GitHub Pagesにデプロイ
         id: deployment
         uses: actions/deploy-pages@v4
-
