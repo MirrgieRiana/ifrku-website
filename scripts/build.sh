@@ -3,9 +3,9 @@
 #
 # このスクリプトはGradleから呼び出されます（build.gradle.kts の jekyllBuild タスク）。
 # 処理の流れ:
-#   1. contents/blog/ のブログ記事を ai/_posts/ にコピー
-#   2. contents/about.md を ai/about.md にコピー
-#   3. ai/ ディレクトリで bundle install を実行
+#   1. contents/blog/ のブログ記事を ai/site/_posts/ にコピー
+#   2. contents/about.md を ai/site/about.md にコピー
+#   3. ai/site/ ディレクトリで bundle install を実行
 #   4. jekyll build（または jekyll serve）を実行
 #
 # 使い方:
@@ -20,21 +20,21 @@ REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # 第1引数が "serve" ならサーバー起動モード、それ以外はビルドモード
 MODE="${1:-build}"
 
-echo "==> [1/3] コンテンツを ai/ にコピー中..."
+echo "==> [1/3] コンテンツを ai/site/ にコピー中..."
 
-# ブログ記事を ai/_posts/ にコピー（contents/blog/ が空でもエラーにしない）
-mkdir -p "${REPO_ROOT}/ai/_posts"
+# ブログ記事を ai/site/_posts/ にコピー（contents/blog/ が空でもエラーにしない）
+mkdir -p "${REPO_ROOT}/ai/site/_posts"
 if [ -d "${REPO_ROOT}/contents/blog" ]; then
-  cp -r "${REPO_ROOT}/contents/blog/." "${REPO_ROOT}/ai/_posts/"
+  cp -r "${REPO_ROOT}/contents/blog/." "${REPO_ROOT}/ai/site/_posts/"
 fi
 
-# about ページを ai/about.md にコピー
+# about ページを ai/site/about.md にコピー
 if [ -f "${REPO_ROOT}/contents/about.md" ]; then
-  cp "${REPO_ROOT}/contents/about.md" "${REPO_ROOT}/ai/about.md"
+  cp "${REPO_ROOT}/contents/about.md" "${REPO_ROOT}/ai/site/about.md"
 fi
 
 echo "==> [2/3] Gem 依存関係をインストール中..."
-cd "${REPO_ROOT}/ai"
+cd "${REPO_ROOT}/ai/site"
 
 # bundler コマンドを検出（bundle がなければ bundle3.x 系を順番に探す）
 BUNDLE_CMD="bundle"
@@ -62,5 +62,5 @@ if [ "${MODE}" = "serve" ]; then
 else
   # CI/本番ビルド
   "${BUNDLE_CMD}" exec jekyll build
-  echo "==> ビルド完了！ai/_site/ に出力されました。"
+  echo "==> ビルド完了！ai/site/_site/ に出力されました。"
 fi

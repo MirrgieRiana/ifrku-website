@@ -1,14 +1,14 @@
-# Jekyllのビルド生成物（ai/ サブディレクトリ内）
-ai/_site/
-ai/.sass-cache/
-ai/.jekyll-cache/
-ai/.jekyll-metadata
-ai/.bundle/
-ai/vendor/
+# Jekyllのビルド生成物（ai/site/ サブディレクトリ内）
+ai/site/_site/
+ai/site/.sass-cache/
+ai/site/.jekyll-cache/
+ai/site/.jekyll-metadata
+ai/site/.bundle/
+ai/site/vendor/
 
 # ビルドスクリプトによって生成されるコンテンツ（contents/ からコピーされる）
-ai/_posts/
-ai/about.md
+ai/site/_posts/
+ai/site/about.md
 
 # Gradleのキャッシュ・一時ファイル
 .gradle/

@@ -43,14 +43,14 @@ jobs:
           distribution: temurin
 
       # JekyllはRubyで動くためRubyをセットアップ
-      # bundler-cache: true により ai/Gemfile.lock を参照してgemをキャッシュする
+      # bundler-cache: true により ai/site/Gemfile.lock を参照してgemをキャッシュする
       - name: Rubyのセットアップ（Bundlerキャッシュ有効）
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
-          # ai/Gemfile.lock を参照してgemをキャッシュ
+          # ai/site/Gemfile.lock を参照してgemをキャッシュ
           bundler-cache: true
-          working-directory: ai
+          working-directory: ai/site
 
       # GitHub Pagesのデプロイに必要な設定（baseurl等の自動設定）
       - name: GitHub Pagesの設定
@@ -60,7 +60,7 @@ jobs:
       - name: gradlew と build.sh に実行権限を付与
         run: chmod +x gradlew scripts/build.sh
 
-      # Gradlew経由でビルドスクリプトを実行（ai/_site/ に生成される）
+      # Gradlew経由でビルドスクリプトを実行（ai/site/_site/ に生成される）
       - name: Gradle で Jekyll をビルド（scripts/build.sh 経由）
         run: ./gradlew jekyllBuild
 
@@ -68,7 +68,7 @@ jobs:
       - name: Pagesアーティファクトをアップロード
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ai/_site/
+          path: ai/site/_site/
 
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   # ジョブ2: GitHub Pagesへのデプロイ

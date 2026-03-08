@@ -39,7 +39,7 @@ tags: [タグ1, タグ2]
 zundamon: ハローなのだ
 ```
 
-キャラクター画像は `ai/assets/images/characters/<キー名>.png` に配置してください。
+キャラクター画像は `ai/site/assets/images/characters/<キー名>.png` に配置してください。
 （画像がなくても絵文字でフォールバック表示されます）
 
 ---
@@ -49,15 +49,15 @@ zundamon: ハローなのだ
 **`ai/` ディレクトリはAIコーディングアシスタントが主に管理しています。**
 人間はあまり立ち入らないことを想定したディレクトリです。
 
-具体的には、次のような要素が含まれます：
+具体的には `ai/site/` 以下に Jekyll の各種ファイルが含まれます：
 
-- Jekyll のレイアウトテンプレート（`_layouts/`）
-- カスタムRubyプラグイン（`_plugins/`）
-- CSS スタイルシート（`assets/css/style.css`）
-- Jekyll 設定ファイル（`_config.yml`）
+- Jekyll のレイアウトテンプレート（`ai/site/_layouts/`）
+- カスタムRubyプラグイン（`ai/site/_plugins/`）
+- CSS スタイルシート（`ai/site/assets/css/style.css`）
+- Jekyll 設定ファイル（`ai/site/_config.yml`）
 - Gemfile
 
-> **注意**: `ai/_posts/` と `ai/about.md` はビルド時に `scripts/build.sh` によって `contents/` から自動コピーされます。
+> **注意**: `ai/site/_posts/` と `ai/site/about.md` はビルド時に `scripts/build.sh` によって `contents/` から自動コピーされます。
 > 直接編集しても次回ビルドで上書きされるため、記事の編集は必ず `contents/` 側で行ってください。
 
 ---
@@ -65,7 +65,7 @@ zundamon: ハローなのだ
 ## 🔨 ローカルでビルドする方法
 
 ```bash
-# Jekyll サイトをビルドする（ai/_site/ に出力）
+# Jekyll サイトをビルドする（ai/site/_site/ に出力）
 ./gradlew jekyllBuild
 
 # ローカルサーバー起動（ライブリロード対応）
@@ -75,9 +75,9 @@ zundamon: ハローなのだ
 ### ビルドの仕組み
 
 1. `./gradlew jekyllBuild` が `scripts/build.sh` を呼び出す
-2. `scripts/build.sh` が `contents/blog/` の記事を `ai/_posts/` にコピー
+2. `scripts/build.sh` が `contents/blog/` の記事を `ai/site/_posts/` にコピー
 3. `bundle install` → `jekyll build` を実行
-4. 生成物は `ai/_site/` に出力される
+4. 生成物は `ai/site/_site/` に出力される
 
 ---
 
@@ -96,12 +96,13 @@ ifrku-website/
 │   ├── blog/                    #   ブログ記事（YYYY-MM-DD-title.md）
 │   └── about.md                 #   サイト紹介ページ
 ├── ai/                          # 🤖 AIが管理するJekyllテンプレート等
-│   ├── _config.yml              #   Jekyll設定
-│   ├── _layouts/                #   HTMLレイアウト
-│   ├── _plugins/                #   カスタムプラグイン
-│   ├── assets/                  #   CSS・画像
-│   ├── index.html               #   トップページ
-│   └── Gemfile                  #   Ruby依存関係
+│   └── site/                    #   Jekyllサイトのソースファイル
+│       ├── _config.yml          #   Jekyll設定
+│       ├── _layouts/            #   HTMLレイアウト
+│       ├── _plugins/            #   カスタムプラグイン
+│       ├── assets/              #   CSS・画像
+│       ├── index.html           #   トップページ
+│       └── Gemfile              #   Ruby依存関係
 ├── scripts/
 │   └── build.sh                 # ビルドシェルスクリプト（Gradleから呼び出される）
 ├── build.gradle.kts             # Gradleビルドスクリプト

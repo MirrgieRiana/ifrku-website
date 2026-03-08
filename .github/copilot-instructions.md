@@ -18,8 +18,8 @@
 ## リポジトリ構成
 
 - `contents/` — **人間が編集するコンテンツ**（ブログ記事: `contents/blog/`、固定ページ: `contents/about.md` 等）
-- `ai/` — **AIが管理するJekyllテンプレート等**（レイアウト、CSS、プラグイン、設定ファイル）
-- `scripts/build.sh` — ビルドシェルスクリプト（`contents/` → `ai/_posts/` のコピー + Jekyll ビルド）
+- `ai/site/` — **AIが管理するJekyllテンプレート等**（レイアウト、CSS、プラグイン、設定ファイル）
+- `scripts/build.sh` — ビルドシェルスクリプト（`contents/` → `ai/site/_posts/` のコピー + Jekyll ビルド）
 - `build.gradle.kts` — GradleビルドスクリプトでJekyllタスクを定義（`bash scripts/build.sh` を呼び出す）
 - `.github/workflows/` — GitHub Actions ワークフロー
 
@@ -27,10 +27,10 @@
 
 - 新しいファイルを追加するときは、ファイル先頭にそのファイルの役割を日本語でコメントすること。
 - 既存ファイルを編集するときも、変更箇所に日本語コメントを追加すること。
-- 新しいキャラクターを追加する場合は `ai/_plugins/character_block.rb` の `CHARACTERS` ハッシュに追加し、対応する画像を `ai/assets/images/characters/` に置くこと。
+- 新しいキャラクターを追加する場合は `ai/site/_plugins/character_block.rb` の `CHARACTERS` ハッシュに追加し、対応する画像を `ai/site/assets/images/characters/` に置くこと。
 
 ## 重要なアーキテクチャルール
 
-- ブログ記事の実体は `contents/blog/` に置くこと（`ai/_posts/` は自動生成されるため直接編集しない）。
-- `ai/` ディレクトリのファイル（テンプレート・CSS・プラグイン）はAIが管理すること。
+- ブログ記事の実体は `contents/blog/` に置くこと（`ai/site/_posts/` は自動生成されるため直接編集しない）。
+- `ai/site/` ディレクトリのファイル（テンプレート・CSS・プラグイン）はAIが管理すること。
 - ビルド処理の変更が必要な場合は `scripts/build.sh` を修正すること。

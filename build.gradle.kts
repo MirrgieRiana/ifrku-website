@@ -5,10 +5,10 @@
 // GradleはそのシェルスクリプトをBashで起動するだけです。
 //
 // ディレクトリ構造:
-//   contents/       — 人間が編集するコンテンツ（ブログ記事・固定ページ）
-//   ai/             — JekyllテンプレートやCSSなどAIが管理するファイル群
-//   ai/_site/       — Jekyllビルドの出力（コミット不要）
-//   scripts/        — ビルドシェルスクリプト
+//   contents/         — 人間が編集するコンテンツ（ブログ記事・固定ページ）
+//   ai/site/          — JekyllテンプレートやCSSなどAIが管理するファイル群
+//   ai/site/_site/    — Jekyllビルドの出力（コミット不要）
+//   scripts/          — ビルドシェルスクリプト
 
 // baseプラグインを適用してGradleの標準ライフサイクル（assemble, clean等）を有効化
 plugins {
@@ -16,7 +16,7 @@ plugins {
 }
 
 // メインビルドタスク:
-//   1. contents/blog/ の記事を ai/_posts/ にコピー
+//   1. contents/blog/ の記事を ai/site/_posts/ にコピー
 //   2. bundle install & jekyll build を実行
 //   → 詳細は scripts/build.sh を参照
 tasks.register<Exec>("jekyllBuild") {
@@ -34,13 +34,13 @@ tasks.register<Exec>("jekyllServe") {
 
 // Jekyllのビルド生成物を削除するタスク
 tasks.register<Delete>("cleanSite") {
-    description = "Jekyll の生成物 (ai/_site/) とコピーされたコンテンツを削除します。"
+    description = "Jekyll の生成物 (ai/site/_site/) とコピーされたコンテンツを削除します。"
     group = "jekyll"
     // ビルド生成物
-    delete("ai/_site")
+    delete("ai/site/_site")
     // スクリプトによってコピーされるファイル（再ビルド時に再生成される）
-    delete("ai/_posts")
-    delete("ai/about.md")
+    delete("ai/site/_posts")
+    delete("ai/site/about.md")
 }
 
 // Gradle標準ライフサイクルへの組み込み

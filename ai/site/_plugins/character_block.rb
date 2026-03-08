@@ -8,7 +8,7 @@
 #   zundamon: ハローなのだ
 #
 # 新しいキャラクターを追加するには CHARACTERS ハッシュにエントリを追加してください。
-# キャラクター画像は assets/images/characters/<キー名>.png に配置します
+# キャラクター画像は ai/site/assets/images/characters/<キー名>.png に配置します
 # （画像が存在しない場合は絵文字のプレースホルダーで代替されます）。
 
 module Jekyll
