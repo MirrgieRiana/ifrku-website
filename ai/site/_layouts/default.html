@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!-- _layouts/default.html: すべてのページが継承するベースレイアウト -->
+<!-- サイトヘッダー、ナビゲーション、メインコンテンツ領域、フッターを含みます -->
+<html lang="{{ site.lang | default: 'ja' }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- ページごとの説明文。なければサイト全体の説明を使用 -->
+  <meta name="description" content="{{ page.description | default: site.description | strip_html | normalize_whitespace | truncate: 160 }}">
+  <!-- ページタイトル: ページ名があれば「ページ名 | サイト名」形式にする -->
+  <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <!-- 日本語フォント: Noto Sans JP（本文）と Noto Serif JP（見出し）を読み込む -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+  <!-- サイト共通スタイルシート -->
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <!-- jekyll-feed プラグインによるRSSフィードのリンクタグを挿入 -->
+  {% feed_meta %}
+  <!-- jekyll-seo-tag プラグインによるSEOメタタグ（OGP等）を挿入 -->
+  {% seo %}
+</head>
+<body>
+  <!-- サイトヘッダー: ロゴとナビゲーションを含む固定バー -->
+  <header class="site-header">
+    <div class="container">
+      <div class="site-header__inner">
+        <!-- サイトロゴ: トップページへのリンク -->
+        <a href="{{ '/' | relative_url }}" class="site-logo">
+          <span class="site-logo__icon">🌿</span>
+          <span class="site-logo__text">{{ site.title }}</span>
+        </a>
+        <!-- グローバルナビゲーション -->
+        <nav class="site-nav">
+          <a href="{{ '/' | relative_url }}" class="nav-link">ホーム</a>
+          <a href="{{ '/about/' | relative_url }}" class="nav-link">このサイトについて</a>
+          <!-- RSSフィードへのリンク（アイコンのみ） -->
+          <a href="{{ '/feed.xml' | relative_url }}" class="nav-link nav-link--icon" title="RSS フィード">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19.01 7.38 20 6.18 20C4.98 20 4 19.01 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"/>
+            </svg>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ領域: 各レイアウトのコンテンツがここに展開される -->
+  <main class="site-main">
+    {{ content }}
+  </main>
+
+  <!-- サイトフッター: 著作権表示 -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="site-footer__text">
+        &copy; {{ site.time | date: "%Y" }} {{ site.author.name | default: site.title }} &mdash; Jekyll で構築
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

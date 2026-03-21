@@ -1,0 +1,24 @@
+# Gemfile — Ruby依存パッケージの定義ファイル
+#
+# このファイルにはJekyllとそのプラグインの依存関係を定義します。
+# `bundle install` でインストールされます（Gradleの bundleInstall タスク経由でも可）。
+
+source "https://rubygems.org"
+
+# 静的サイトジェネレーター本体
+gem "jekyll", "~> 4.3"
+
+# 記事一覧のページネーション機能
+gem "jekyll-paginate", "~> 1.1"
+
+# RSSフィード（/feed.xml）の自動生成
+gem "jekyll-feed", "~> 0.17"
+
+# サイトマップ（/sitemap.xml）の自動生成
+gem "jekyll-sitemap", "~> 1.4"
+
+# SEO向けメタタグの自動生成（OGPタグ、twitter:card等を含む）
+gem "jekyll-seo-tag", "~> 2.8"
+
+# Ruby 3.x での Jekyll serve に必要なWebサーバー
+gem "webrick", "~> 1.8"

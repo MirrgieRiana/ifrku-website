@@ -1,0 +1,88 @@
+# .github/workflows/deploy.yml
+#
+# mainブランチへのpushまたは手動実行で、
+# JekyllサイトをビルドしてGitHub Pagesにデプロイするワークフローです。
+
+name: ビルドとGitHub Pagesへのデプロイ
+
+on:
+  # mainブランチへのpushで自動実行
+  push:
+    branches: [main]
+  # GitHubのUI上から手動実行も可能
+  workflow_dispatch:
+
+# デプロイに必要な最小限のパーミッションを付与
+permissions:
+  contents: read  # リポジトリの読み取り
+  pages:    write  # GitHub Pages への書き込み
+  id-token: write  # デプロイ認証用のIDトークン
+
+# 同時デプロイを1つに制限する（キュー中のものはスキップ、実行中のものはキャンセルしない）
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # ジョブ1: Jekyllサイトのビルド
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  build:
+    name: Jekyllサイトのビルド
+    runs-on: ubuntu-latest
+    steps:
+      # リポジトリのチェックアウト
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      # GradleはJVMで動くためJavaが必要
+      - name: Java（Gradle実行用）のセットアップ
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: temurin
+
+      # JekyllはRubyで動くためRubyをセットアップ
+      # bundler-cache: true により ai/site/Gemfile.lock を参照してgemをキャッシュする
+      - name: Rubyのセットアップ（Bundlerキャッシュ有効）
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          # ai/site/Gemfile.lock を参照してgemをキャッシュ
+          bundler-cache: true
+          working-directory: ai/site
+
+      # GitHub Pagesのデプロイに必要な設定（baseurl等の自動設定）
+      - name: GitHub Pagesの設定
+        uses: actions/configure-pages@v5
+
+      # Gradleラッパーに実行権限を付与
+      - name: gradlew と build.sh に実行権限を付与
+        run: chmod +x gradlew scripts/build.sh
+
+      # Gradlew経由でビルドスクリプトを実行（ai/site/_site/ に生成される）
+      - name: Gradle で Jekyll をビルド（scripts/build.sh 経由）
+        run: ./gradlew jekyllBuild
+
+      # 生成された静的ファイルをPages用アーティファクトとしてアップロード
+      - name: Pagesアーティファクトをアップロード
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ai/site/_site/
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # ジョブ2: GitHub Pagesへのデプロイ
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  deploy:
+    name: GitHub Pagesへのデプロイ
+    # ビルドジョブが成功したら実行
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # ビルド済みアーティファクトをGitHub Pagesにデプロイ
+      - name: GitHub Pagesにデプロイ
+        id: deployment
+        uses: actions/deploy-pages@v4
